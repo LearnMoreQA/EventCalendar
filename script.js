@@ -177,6 +177,7 @@ const holidays = [
     const txtTitle = document.querySelector("#txtTitle");
     const txtDesc = document.querySelector("#txtDesc");
     const txtType = document.querySelector("#txtType");
+    const checkbox = document.querySelector("#txtCheckBox");
 
     btnBack.addEventListener("click", () => {
       navigation--;
@@ -204,10 +205,12 @@ const holidays = [
           title: txtTitle.value.trim(),
           desc: txtDesc.value.trim(),
           type: txtType.value.trim(),
+          time: checkbox.value.trim(),
         });
         txtTitle.value = "";
         txtDesc.value = "";
         txtType.value = "";
+        checkbox.value = "";
         localStorage.setItem("events", JSON.stringify(events));
         closeModal();
       } else {
@@ -228,6 +231,9 @@ const holidays = [
       document.querySelector("#eventText").innerText = eventOfTheDay.title;
       document.querySelector("#eventDesc").innerText = eventOfTheDay.desc;
       document.querySelector("#eventType").innerText = eventOfTheDay.type;
+      if(eventOfTheDay.time == "checked"){
+      document.querySelector("#eventTimeSlot").innerText = "All Day";
+      }
       viewEventForm.style.display = "block";
     } else {
       //Add new Event
@@ -300,7 +306,6 @@ const holidays = [
     dropdown.classList.remove('open');
   });
 
-
   document.addEventListener('click', (evt) => {
     const isDropdown = dropdown.contains(evt.target);
     const isInput = inputField.contains(evt.target);
@@ -308,5 +313,22 @@ const holidays = [
       dropdown.classList.remove('open');
     }
   });
+
+  function checkClickFunc()
+{
+ var checkbox = document.getElementById('txtCheckBox');
+ if (checkbox.checked == true)
+ {
+  checkbox.value = "checked";
+ }else{
+  checkbox.value = "";
+ }
+}
+
   buttons();
   loadCalendar();
+
+
+  
+
+ 

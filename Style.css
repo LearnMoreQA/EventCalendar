@@ -1,260 +1,262 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700;800&display=swap");
 
-    * {
-      margin: 0;
-      padding: 0;
-      font-family: "Poppins", sans-serif;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
 
-    body {
-      width: 100vw;
-      height: 100vh;
-      background-color: #fff;
-      display: grid;
-      place-items: center;
-    }
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: #fff;
+  display: grid;
+  place-items: center;
+}
 
-    .container {
-      width: 70vw;
-      height: 70vh;
-      background-color: #fff;
-    }
+.container {
+  width: 770px;
+  background-color: #fff;
+}
 
-    .header {
-      padding: 10px;
-      display: flex;
-      justify-content: space-between;
-    }
+.header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
 
-    .header #month {
-      color: dodgerblue;
-      font-size: 20px;
-      font-weight: 600;
-    }
+.header #month {
+  color: dodgerblue;
+  font-size: 30px;
+  font-weight: 600;
+}
 
-    button {
-      width: 60px;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      padding: 5px;
-      border-radius: 3px;
-      color: white;
-    }
+button {
+  width: 75px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 3px;
+  color: white;
+}
 
-    .header button {
-      background-color: dodgerblue;
-    }
+.header button {
+  background-color: dodgerblue;
+}
 
-    .weekdays {
-      width: 100%;
-      display: flex;
-      background-color: #2f3640;
-      font-size: 17px;
-      color: #fff;
-      font-weight: 500;
-    }
+.weekdays {
+  width: 100%;
+  display: flex;
+  background-color: #2f3640;
+  font-size: 17px;
+  color: #fff;
+  font-weight: 500;
+}
 
-    .weekdays div {
-      width: 100px;
-      padding: 10px;
-      text-align: center;
-      text-transform: uppercase;
-    }
+.weekdays div {
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
 
-    #calendar {
-      width: 100%;
-      margin: auto;
-      display: flex;
-      flex-wrap: wrap;
-    }
+#calendar {
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
 
-    .day {
-      width: 8.7vw;
-      height: 70px;
-      padding: 10px;
-      cursor: pointer;
-      margin: 5px;
-      box-sizing: border-box;
-      box-shadow: 0px 0px 1.5px dodgerblue;
-      color: #7f8fa6;
-      font-weight: 500;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+.day {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 3px #cbd4c2;
+  color: #7f8fa6;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-    .day:hover {
-      background-color: rgba(112, 111, 211, 0.1);
-      color: #706fd3;
-    }
+.day:hover {
+  background-color: rgba(112, 111, 211, 0.1);
+  color: dodgerblue;
+}
 
-    #currentDay {
-      background-color: dodgerblue;
-      color: #fff;
-    }
+#currentDay {
+  background-color: dodgerblue;
+  color: #fff;
+}
 
-    .event {
-      font-size: 10px;
-      padding: 3px;
-      background-color: #3d3d3d;
-      color: #fff;
-      border-radius: 5px;
-      max-height: 55px;
-      overflow: hidden;
-    }
+.event {
+  font-size: 10px;
+  padding: 3px;
+  background-color: #3d3d3d;
+  color: #fff;
+  border-radius: 5px;
+  max-height: 55px;
+  overflow: hidden;
+}
 
-    .event.holiday {
-      background-color: green;
-      color: white;
-      font-size: 50%;
-      padding: 2.5px;
-    }
+.event.holiday {
+  background-color: green;
+  color: #fff;
+}
 
-    .plain {
-      cursor: default;
-      box-shadow: none;
-    }
+.plain {
+  cursor: default;
+  box-shadow: none;
+}
 
-    #modal {
-      display: none;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      width: 100vw;
-      height: 100vh;
-      z-index: 10;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+#modal {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.8);
+}
 
-    #addEvent,
-    #viewEvent {
-      display: none;
-      width: 350px;
-      background-color: #fff;
-      padding: 25px;
-      position: absolute;
-      z-index: 20;
-    }
+#addEvent,
+#viewEvent {
+  display: none;
+  width: 350px;
+  background-color: #fff;
+  padding: 25px;
+  position: absolute;
+  z-index: 20;
+}
 
-    #addEvent h2,
-    #viewEvent h2 {
-      font-weight: 500;
-      margin-bottom: 10px;
-    }
+#addEvent h2,
+#viewEvent h2 {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
 
-    #txtTitle,
-    #txtDesc {
-      padding: 10px;
-      width: 100%;
-      height: 5vh;
-      box-sizing: border-box;
-      margin-bottom: 15px;
-      border-radius: 3px;
-      outline: none;
-      border: 1px solid #cbd4c2;
-      font-size: 16px;
-    }
+#chkbox{
+  margin-top: 15px;
+}
 
+#txtTitle,#txtDesc {
+  padding: 10px;
+  width: 100%;
+  height: 5vh;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #cbd4c2;
+  font-size: 16px;
+}
 
-    #btnSave {
-      background-color: #2ed573;
-    }
+#btnSave {
+  margin-top: 100px;
+  background-color: green;
+}
 
-    .btnClose {
-      background-color: #2f3542;
-    }
+.btnClose {
+  background-color: #2f3542;
+}
 
-    .btnClose,
-    #btnSave {
-      margin-top: 120px;
-    }
+#viewEvent p {
+  margin-bottom: 20px;
+}
 
-    #viewEvent p {
-      margin-bottom: 20px;
-    }
+#btnDelete {
+  background-color: #ea2027;
+}
 
-    #btnDelete {
-      background-color: #ea2027;
-    }
+.error {
+  border-color: #ea2027 !important;
+}
 
-    .error {
-      border-color: #ea2027 !important;
-    }
+form {
+  position: relative;
+  width: 12rem;
+}
 
-    form {
-      position: relative;
-      width: 12rem;
-    }
+.chosen-value {
+  padding: 10px;
+  width: 350px;
+  height: 5vh;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid #cbd4c2;
+  font-size: 16px;
+}
 
-    .chosen-value {
-      padding: 10px;
-      width: 350px;
-      height: 5vh;
-      box-sizing: border-box;
-      margin-bottom: 15px;
-      border-radius: 3px;
-      outline: none;
-      border: 1px solid #cbd4c2;
-      font-size: 16px;
-    }
+.value-list {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+}
 
-    .value-list {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-    }
+.chosen-value:hover {
+  cursor: pointer;
+}
 
-    .chosen-value:hover {
-      cursor: pointer;
-    }
+.chosen-value:focus,
+.chosen-value.open {
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+  outline: 0;
+  color: #000;
+}
 
-    .chosen-value:focus,
-    .chosen-value.open {
-      box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
-      outline: 0;
-      color: #000;
-    }
+.value-list.open {
+  margin-top: 62px;
+}
 
-    .value-list.open {
-      margin-top: 62px;
-    }
+.value-list {
+  list-style: none;
+  width: 350px;
+  margin-top: 40px;
+  box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  max-height: 0;
+  transition: 0.3s ease-in-out;
+}
 
-    .value-list {
-      list-style: none;
-      width: 350px;
-      margin-top: 40px;
-      box-shadow: 0px 5px 8px 0px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-      max-height: 0;
-      transition: 0.3s ease-in-out;
-    }
+.value-list.open {
+  max-height: 320px;
+  overflow: hidden;
+}
 
-    .value-list.open {
-      max-height: 320px;
-      overflow: hidden;
-    }
+.value-list li {
+  position: relative;
+  height: 1.2rem;
+  background-color: #FAFCFD;
+  padding-bottom: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  opacity: 1;
+}
 
-    .value-list li {
-      position: relative;
-      height: 1.2rem;
-      background-color: #FAFCFD;
-      padding-bottom: 15px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      opacity: 1;
-    }
+.value-list li:hover {
+  background-color: lightblue;
+  color: black;
+}
 
-    .value-list li:hover {
-      background-color: lightblue;
-      color: black;
-    }
+.value-list li.closed {
+  max-height: 0rem;
+  overflow: hidden;
+  padding: 0;
+  opacity: 0;
+}
 
-    .value-list li.closed {
-      max-height: 0rem;
-      overflow: hidden;
-      padding: 0;
-      opacity: 0;
-    }
+.info {
+  padding: 5px;
+  background-color: #2196F3;
+  color: #fff;
+  border-radius: 5px;
+}
