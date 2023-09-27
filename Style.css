@@ -140,8 +140,14 @@ button {
   margin-bottom: 10px;
 }
 
-#chkbox{
+#chkboxContainer{
   margin-top: 15px;
+  width: 100%;
+  display: flex;
+}
+
+.ch_container{
+  margin-right: 40px;
 }
 
 #txtTitle,#txtDesc {
@@ -259,4 +265,27 @@ form {
   background-color: #2196F3;
   color: #fff;
   border-radius: 5px;
+}
+
+#timeField {
+  display: none;
+  margin: 10px;
+}
+
+#time{
+  margin: 10px;
+}
+
+#timeField-table td{
+    text-align: center;
+    padding: 2px;
+  }
+
+  #radioButton-Container{
+    margin: 10px 0;
+    text-align: left;
+  }
+
+#radioButton-Container input{
+  margin: 7px;
 }
