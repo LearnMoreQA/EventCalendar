@@ -168,6 +168,9 @@ function loadCalendar() {
     calendar.append(dayBox);
   }
 }
+
+
+
 function buttons() {
   const btnBack = document.querySelector("#btnBack");
   const btnNext = document.querySelector("#btnNext");
@@ -213,6 +216,7 @@ function buttons() {
         sTime:startTime.value.trim(),
         eTime:endTime.value.trim(),
       });
+      console.log("Show Time checkbox "+ showTimecheckbox.value.trim());
       txtTitle.value = "";
       txtDesc.value = "";
       txtType.value = "";
@@ -231,20 +235,21 @@ const addEventForm = document.querySelector("#addEvent");
 
 function showModal(dateText) {
   clicked = dateText;
+  console.log(clicked);
   const eventOfTheDay = events.find((e) => e.date == dateText);
   if (eventOfTheDay) {
     //Event already Preset
     document.querySelector("#eventText").innerText = eventOfTheDay.title;
     document.querySelector("#eventDesc").innerText = eventOfTheDay.desc;
     document.querySelector("#eventType").innerText = eventOfTheDay.type;
-    if (eventOfTheDay.time == "checked") {
+    console.log("Specific Time "+eventOfTheDay.specificTime);
+    if(eventOfTheDay.specificTime == "checked"){
+      document.querySelector("#eventTimeSlot").innerText = eventOfTheDay.sTime +" - "+eventOfTheDay.eTime;
+    }else{
       document.querySelector("#eventTimeSlot").innerText = "All Day";
       document.querySelector("#eventTimeSlot").setAttribute('style','background-color:green;color:#fff;border-radius:3px;padding:5px;width:9vw;text-align:center');
-      viewEventForm.style.display = "block";
-    }else if(eventOfTheDay.specificTime == "checked"){
-      document.querySelector("#eventTimeSlot").innerText = eventOfTheDay.sTime +" - "+eventOfTheDay.eTime;
-      viewEventForm.style.display = "block";
     }
+    viewEventForm.style.display = "block";
   }else {
     addEventForm.style.display = "block";
   }
@@ -253,6 +258,7 @@ function showModal(dateText) {
 
 //Close Modal
 function closeModal() {
+  txtTitle.classList.remove("error");
   viewEventForm.style.display = "none";
   addEventForm.style.display = "none";
   modal.style.display = "none";
@@ -320,28 +326,12 @@ document.addEventListener('click', (evt) => {
   const isInput = inputField.contains(evt.target);
   if (!isDropdown && !isInput) {
     dropdown.classList.remove('open');
+  }else{
+    dropdown.style.display = "block";
   }
 });
+  
 
-function checkClickFunc() {
-  var timeField = document.getElementById("timeField");
-  var showTimecheckbox = document.getElementById("showTime")
-  var checkbox = document.getElementById('txtCheckBox');
-  if (showTimecheckbox.checked) {
-    timeField.style.display = "block";
-    showTimecheckbox.value = "checked";
-    checkbox.value = "";
-  } else if(checkbox.checked){
-    timeField.style.display = "none";
-    checkbox.value = "checked";
-    showTimecheckbox.value ="";
-  }
-  else {
-    timeField.style.display = "none";
-    checkbox.value = "";
-    showTimecheckbox.value ="";
-  }
-}
 
 function toggleRadioField() {
   var multiselect = document.getElementById("combobox");
@@ -377,7 +367,6 @@ function validateTimeField() {
     document.getElementById("timeFieldErrorMsg").innerText = "Current StartTime must be lesser than current EndTime";
   }else{
     document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#fff');
-    alert("Saved Successfully");
   }
 }
 
@@ -432,7 +421,23 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
+document.addEventListener("click", () => {
+  var fullTimeCheckbox = document.getElementById("txtCheckBox");
+  var specificTimeCheckbox = document.getElementById("showTime");
+  var timeField = document.getElementById("timeField");
+  console.log(specificTimeCheckbox.checked);
+  console.log(fullTimeCheckbox.checked);
+  if(specificTimeCheckbox.checked){
+    document.getElementById("showTime").setAttribute("checked","");
+    document.getElementById("showTime").setAttribute("value","checked");
+    document.getElementById("txtCheckBox").removeAttribute("checked");
+    timeField.style.display = "block";
+  }else {
+    document.getElementById("showTime").removeAttribute("checked");
+    document.getElementById("txtCheckBox").setAttribute("checked","");
+    document.getElementById("showTime").removeAttribute("value","checked");
+    timeField.style.display = "none";
+  }});
 
 buttons();
 loadCalendar();

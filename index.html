@@ -56,11 +56,11 @@
   </div>
     <div id="chkboxContainer">
       <div id="fullDayContainer" class="ch_container">
-        <input type="checkbox" id="txtCheckBox" onclick="checkClickFunc()" />
+        <input type="checkbox" id="txtCheckBox" name="timeslot" checked value="checked"/>
         <label>All Day</label>
       </div>
       <div id="specificTimeContainer" class="ch_container">
-        <input type="checkbox" id="showTime" onclick="checkClickFunc()" />
+        <input type="checkbox" id="showTime" name="timeslot"/>
         <label>Specific Time</label>
       </div>
     </div>
@@ -85,7 +85,7 @@
     <form>
       <label id="event_Type">Event Type</label>
       <input id="txtType" class="chosen-value" type="text" value="" placeholder="Type to select event type..." />
-      <ul class="value-list">
+      <ul class="value-list" hidden>
         <li>None</li>
         <li>Business</li>
         <li>Important</li>
