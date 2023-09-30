@@ -344,17 +344,22 @@ function checkClickFunc() {
 }
 
 function toggleRadioField() {
+  var multiselect = document.getElementById("combobox");
   var yesCheck = document.getElementById("selectYes");
   var noCheck = document.getElementById("selectNo");
   if (yesCheck.checked) {
     yesCheck.value = "checked";
     noCheck.value = "";
+    multiselect.style.display = "block";
+    multiselect.removeAttribute("hidden");
   }  else if(noCheck.checked){
     noCheck.value = "checked";
     yesCheck.value = "";
+    multiselect.style.display = "none";
   }else{
     noCheck.value = "";
     yesCheck.value = "";
+    multiselect.style.display = "none";
   }
 }
 
@@ -372,8 +377,62 @@ function validateTimeField() {
     document.getElementById("timeFieldErrorMsg").innerText = "Current StartTime must be lesser than current EndTime";
   }else{
     document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#fff');
+    alert("Saved Successfully");
   }
 }
+
+function showOptions(e) {
+  let divOptions = document.getElementById("divOptions");
+  let checkboxContainer = document.getElementById("chkboxContainer");
+  if (divOptions.style.display == "none" || divOptions.style.display == "") {
+      divOptions.style.display = "inline-block";
+      checkboxContainer.style = "margin-top: 95px;";
+  } else {
+      divOptions.style.display = "none";
+  }
+}
+function clickMe(e) {
+  e.stopPropagation();
+}
+function hideOptions(e) {
+  let divOptions = document.getElementById("divOptions");
+  let checkboxContainer = document.getElementById("chkboxContainer");
+  if (divOptions.contains(e.target)) {
+      divOptions.style.display = "inline-block";
+      
+  } else {
+      divOptions.style.display = "none";
+      checkboxContainer.style = "margin-top: 15px;";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  let checkbox = document.querySelectorAll("#divOptions input");
+  let inputCheckbox = document.getElementById("inputCheckbox");
+
+  for (let i = 0; i < checkbox.length; i++) {
+      checkbox[i].addEventListener("change", (e) => {
+          if (e.target.checked == true) {
+              if (inputCheckbox.value == "") {
+                  inputCheckbox.value = checkbox[i].value;
+              } else {
+                  inputCheckbox.value += `,${checkbox[i].value}`;
+              }
+          } else {
+              let values = inputCheckbox.value.split(",");
+
+              for (let r = 0; r < values.length; r++) {
+                  if (values[r] == e.target.value) {
+                      values.splice(r, 1);
+                  }
+              }
+              inputCheckbox.value = values;
+          }
+      });
+  }
+});
+
+
 
 buttons();
 loadCalendar();

@@ -163,7 +163,6 @@ button {
 }
 
 #btnSave {
-  margin-top: 100px;
   background-color: green;
 }
 
@@ -288,4 +287,50 @@ form {
 
 #radioButton-Container input{
   margin: 7px;
+}
+
+.combobox-container{
+  padding: 2px;
+  width: 330px;
+  height: 5vh;
+}
+
+.custom-combobox-container {
+  position: relative;
+  width: 100%;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+.custom-combobox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgb(199, 199, 199);
+  padding: 7px;
+}
+.custom-combobox input[type="text"] {
+  width: 95%;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+.options-container {
+  position: absolute;
+  width: 104.5%;
+  border: 1px solid rgb(204, 204, 204);
+  border-top: none;
+  display: none;
+  height: 75px;
+}
+.options-container label {
+  display: block;
+  cursor: pointer;
+  padding: 5px;
+  margin-top: 5px;
+  user-select: none;
+}
+.options-container label:hover {
+  background: rgb(201, 201, 201);
 }

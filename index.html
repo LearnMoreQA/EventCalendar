@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
   <link rel="stylesheet" href="Style.css">
 </head>
-
 <body>
   <div class="container">
     <div class="header">
@@ -43,6 +42,18 @@
       <input type="radio" id="selectNo" name="selection" onclick="toggleRadioField()"/>
       <label for="no">No</label>
     </div>
+    <div class="combobox-container" id="combobox" hidden>
+      <div class="custom-combobox-container">
+          <div class="custom-combobox" onclick="showOptions(this)">
+              <input type="text" id="inputCheckbox" readonly>
+              <img src="./arrow.png" style="height: 10px;">
+          </div>
+          <div class="options-container" id="divOptions" onmouseleave="hideOptions(this)">
+              <label for="one"> <input type="checkbox" id="mahe" value="mahesh"> Mahesh </label>
+              <label for="two"> <input type="checkbox" id="aravinth" value="aravinth"> Aravinth </label>
+          </div>
+      </div>
+  </div>
     <div id="chkboxContainer">
       <div id="fullDayContainer" class="ch_container">
         <input type="checkbox" id="txtCheckBox" onclick="checkClickFunc()" />
@@ -56,14 +67,8 @@
     <div id="timeField">
       <table id="timeField-table">
         <thead>
-          <td>
-           Start Time
-          </td>
-          <td>
-           End Time
-          </td>
-          <td>  
-          </td>
+          <td>Start Time</td>
+          <td>End Time</td>
         </thead>
         <tr class="t-row">
           <td>
@@ -102,7 +107,7 @@
     <button id="btnDelete">Delete</button>
     <button class="btnClose">Close</button>
   </div>
+  <script src="script.js"></script>
 </body>
-<script src="script.js"></script>
 
 </html>
