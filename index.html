@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
   <link rel="stylesheet" href="Style.css">
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -37,30 +38,30 @@
     <input type="text" id="txtDesc" placeholder="Event Description" />
     <div id="radioButton-Container">
       <label>Do you want to Include Another Person.?</label>
-      <input type="radio" id="selectYes" name="selection" onclick="toggleRadioField()"/>
+      <input type="radio" id="selectYes" name="selection" onclick="toggleRadioField()" />
       <label for="yes">Yes</label>
-      <input type="radio" id="selectNo" name="selection" onclick="toggleRadioField()"/>
+      <input type="radio" id="selectNo" name="selection" onclick="toggleRadioField()" />
       <label for="no">No</label>
     </div>
     <div class="combobox-container" id="combobox" hidden>
       <div class="custom-combobox-container">
-          <div class="custom-combobox" onclick="showOptions(this)">
-              <input type="text" id="inputCheckbox" readonly>
-              <img src="./arrow.png" style="height: 10px;">
-          </div>
-          <div class="options-container" id="divOptions" onmouseleave="hideOptions(this)">
-              <label for="one"> <input type="checkbox" id="mahe" value="mahesh"> Mahesh </label>
-              <label for="two"> <input type="checkbox" id="aravinth" value="aravinth"> Aravinth </label>
-          </div>
+        <div class="custom-combobox" onclick="showOptions(this)">
+          <input type="text" id="inputCheckbox" readonly>
+          <img src="./arrow.png" style="height: 10px;">
+        </div>
+        <div class="options-container" id="divOptions" onmouseleave="hideOptions(this)">
+          <label for="one"> <input type="checkbox" id="mahe" value="mahesh"> Mahesh </label>
+          <label for="two"> <input type="checkbox" id="aravinth" value="aravinth"> Aravinth </label>
+        </div>
       </div>
-  </div>
+    </div>
     <div id="chkboxContainer">
       <div id="fullDayContainer" class="ch_container">
-        <input type="checkbox" id="txtCheckBox" name="timeslot" checked value="checked"/>
+        <input type="checkbox" id="txtCheckBox" name="timeslot" checked value="checked" />
         <label>All Day</label>
       </div>
       <div id="specificTimeContainer" class="ch_container">
-        <input type="checkbox" id="showTime" name="timeslot"/>
+        <input type="checkbox" id="showTime" name="timeslot" />
         <label>Specific Time</label>
       </div>
     </div>
@@ -72,7 +73,7 @@
         </thead>
         <tr class="t-row">
           <td>
-            <input type="time" id="time"  class="vTimeStart" />
+            <input type="time" id="time" class="vTimeStart" />
           </td>
           <td>
             <input type="time" id="time" class="vTimeEnd" />
@@ -80,7 +81,7 @@
         </tr>
       </table>
       <p id="timeFieldErrorMsg"></p>
-  </div>
+    </div>
     <br>
     <form>
       <label id="event_Type">Event Type</label>
@@ -92,20 +93,35 @@
         <li>Personal</li>
       </ul>
     </form>
+    <br><br><br>
+    <div>
+      <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+      <label for="imageUpload"></label>
+    </div>
     <br>
     <button id="btnSave" onclick="validateTimeField()">Save</button>
     <button class="btnClose">Close</button>
   </div>
 
-  <div id="viewEvent">
+  <div id="viewEvent" class="float-container">
     <h2>Event</h2>
-    <p id="eventText">This is Sample Event</p>
-    <p id="eventDesc">This is Sample Event</p>
-    <p id="eventType">This is Sample Event</p>
-    <p id="eventTimeSlot">This is Sample Event</p>
+    <div>
+      <div id="event_info" class="float-child">
+        <p id="eventText">This is Sample Event</p>
+        <p id="eventDesc">This is Sample Event</p>
+        <p id="eventType">This is Sample Event</p>
+        <p id="multiOption">This is Sample Event</p>
+        <p id="eventTimeSlot">This is Sample Event</p>
+      </div>
+      <div id="avatar-preview" class="float-child">
+        <div id="imagePreview" style="background-image: url('profile.png');"></div>
+      </div>
+    </div>
     <br>
-    <button id="btnDelete">Delete</button>
-    <button class="btnClose">Close</button>
+    <div class="btn_event">
+      <button id="btnDelete">Delete</button>
+      <button class="btnClose">Close</button>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

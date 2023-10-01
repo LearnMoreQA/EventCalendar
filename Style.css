@@ -140,17 +140,18 @@ button {
   margin-bottom: 10px;
 }
 
-#chkboxContainer{
+#chkboxContainer {
   margin-top: 15px;
   width: 100%;
   display: flex;
 }
 
-.ch_container{
+.ch_container {
   margin-right: 40px;
 }
 
-#txtTitle,#txtDesc {
+#txtTitle,
+#txtDesc {
   padding: 10px;
   width: 100%;
   height: 5vh;
@@ -271,25 +272,25 @@ form {
   margin: 10px;
 }
 
-#time{
+#time {
   margin: 10px;
 }
 
-#timeField-table td{
-    text-align: center;
-    padding: 2px;
-  }
+#timeField-table td {
+  text-align: center;
+  padding: 2px;
+}
 
-  #radioButton-Container{
-    margin: 10px 0;
-    text-align: left;
-  }
+#radioButton-Container {
+  margin: 10px 0;
+  text-align: left;
+}
 
-#radioButton-Container input{
+#radioButton-Container input {
   margin: 7px;
 }
 
-.combobox-container{
+.combobox-container {
   padding: 2px;
   width: 330px;
   height: 5vh;
@@ -302,6 +303,7 @@ form {
   border: none;
   cursor: pointer;
 }
+
 .custom-combobox {
   width: 100%;
   display: flex;
@@ -309,6 +311,7 @@ form {
   border: 1px solid rgb(199, 199, 199);
   padding: 7px;
 }
+
 .custom-combobox input[type="text"] {
   width: 95%;
   border: none;
@@ -316,6 +319,7 @@ form {
   background: none;
   cursor: pointer;
 }
+
 .options-container {
   position: absolute;
   width: 104.5%;
@@ -324,6 +328,7 @@ form {
   display: none;
   height: 75px;
 }
+
 .options-container label {
   display: block;
   cursor: pointer;
@@ -331,6 +336,42 @@ form {
   margin-top: 5px;
   user-select: none;
 }
+
 .options-container label:hover {
   background: rgb(201, 201, 201);
+}
+
+#imageUpload {
+  margin: 25px 0;
+}
+
+#avatar-preview {
+  width: 55px;
+  height: 55px;
+  border-radius: 100%;
+  border: 6px solid #F8F8F8;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+  margin: 0 0 75px 80px;
+
+  >div {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+#event_info {
+  width: 50%;
+}
+
+.float-child {
+  float: left;
+  overflow: hidden;
+}
+
+.btn_event {
+  width: 50%;
 }

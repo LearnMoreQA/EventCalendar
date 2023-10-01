@@ -102,6 +102,7 @@ let navigation = 0;
 let clicked = null;
 let events = localStorage.getItem("events") ? JSON.parse(localStorage.getItem("events")) : [];
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var imageURL = null;
 
 function loadCalendar() {
   const dt = new Date();
@@ -169,7 +170,20 @@ function loadCalendar() {
   }
 }
 
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      console.log(typeof (e.target.result));
+      imageURL = e.target.result;
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 
+document.querySelector("#imageUpload").addEventListener("change", function () {
+  readURL(this);
+});
 
 function buttons() {
   const btnBack = document.querySelector("#btnBack");
@@ -184,6 +198,7 @@ function buttons() {
   const showTimecheckbox = document.querySelector("#showTime");
   const startTime = document.querySelector(".vTimeStart");
   const endTime = document.querySelector(".vTimeEnd");
+  const multiCheckbox = document.querySelector("#inputCheckbox");
 
   btnBack.addEventListener("click", () => {
     navigation--;
@@ -212,17 +227,22 @@ function buttons() {
         desc: txtDesc.value.trim(),
         type: txtType.value.trim(),
         time: checkbox.value.trim(),
-        specificTime : showTimecheckbox.value.trim(),
-        sTime:startTime.value.trim(),
-        eTime:endTime.value.trim(),
+        specificTime: showTimecheckbox.value.trim(),
+        sTime: startTime.value.trim(),
+        eTime: endTime.value.trim(),
+        chOPtion: multiCheckbox.value.trim(),
+        imagepath: imageURL,
       });
-      console.log("Show Time checkbox "+ showTimecheckbox.value.trim());
+      console.log("Person checkbox " + multiCheckbox.value.trim());
       txtTitle.value = "";
       txtDesc.value = "";
       txtType.value = "";
       checkbox.value = "";
+      multiCheckbox.value = "";
       localStorage.setItem("events", JSON.stringify(events));
+      alert("Saved Succeesfully");
       closeModal();
+      location.reload();
     } else {
       txtTitle.classList.add("error");
     }
@@ -242,15 +262,21 @@ function showModal(dateText) {
     document.querySelector("#eventText").innerText = eventOfTheDay.title;
     document.querySelector("#eventDesc").innerText = eventOfTheDay.desc;
     document.querySelector("#eventType").innerText = eventOfTheDay.type;
-    console.log("Specific Time "+eventOfTheDay.specificTime);
-    if(eventOfTheDay.specificTime == "checked"){
-      document.querySelector("#eventTimeSlot").innerText = eventOfTheDay.sTime +" - "+eventOfTheDay.eTime;
-    }else{
+    document.querySelector("#multiOption").innerText = eventOfTheDay.chOPtion;
+    if (eventOfTheDay.imagepath != null) {
+      document.querySelector("#imagePreview").removeAttribute('style', 'background-image: url(profile.png);');
+      document.querySelector("#imagePreview").setAttribute('style', 'background-image: url(' + eventOfTheDay.imagepath + ');');
+    } else {
+      document.querySelector("#imagePreview").setAttribute('style', 'background-image: url(profile.png);');
+    }
+    if (eventOfTheDay.specificTime == "checked") {
+      document.querySelector("#eventTimeSlot").innerText = eventOfTheDay.sTime + " - " + eventOfTheDay.eTime;
+    } else {
       document.querySelector("#eventTimeSlot").innerText = "All Day";
-      document.querySelector("#eventTimeSlot").setAttribute('style','background-color:green;color:#fff;border-radius:3px;padding:5px;width:9vw;text-align:center');
+      document.querySelector("#eventTimeSlot").setAttribute('style', 'background-color:green;color:#fff;border-radius:3px;padding:5px;width:9vw;text-align:center');
     }
     viewEventForm.style.display = "block";
-  }else {
+  } else {
     addEventForm.style.display = "block";
   }
   modal.style.display = "block";
@@ -262,6 +288,7 @@ function closeModal() {
   viewEventForm.style.display = "none";
   addEventForm.style.display = "none";
   modal.style.display = "none";
+
   clicked = null;
   loadCalendar();
 }
@@ -326,12 +353,10 @@ document.addEventListener('click', (evt) => {
   const isInput = inputField.contains(evt.target);
   if (!isDropdown && !isInput) {
     dropdown.classList.remove('open');
-  }else{
+  } else {
     dropdown.style.display = "block";
   }
 });
-  
-
 
 function toggleRadioField() {
   var multiselect = document.getElementById("combobox");
@@ -342,11 +367,11 @@ function toggleRadioField() {
     noCheck.value = "";
     multiselect.style.display = "block";
     multiselect.removeAttribute("hidden");
-  }  else if(noCheck.checked){
+  } else if (noCheck.checked) {
     noCheck.value = "checked";
     yesCheck.value = "";
     multiselect.style.display = "none";
-  }else{
+  } else {
     noCheck.value = "";
     yesCheck.value = "";
     multiselect.style.display = "none";
@@ -357,16 +382,16 @@ function validateTimeField() {
   var currentStartTimeValue = document.querySelector('.vTimeStart').value;
   var currentEndTimeValue = document.querySelector('.vTimeEnd').value;
   if (!currentStartTimeValue) {
-    document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#ff0000');
+    document.getElementById("timeFieldErrorMsg").setAttribute('style', 'color:#ff0000');
     document.getElementById("timeFieldErrorMsg").innerText = "Enter value for Start Time";
   } else if (!currentEndTimeValue) {
-    document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#ff0000');
+    document.getElementById("timeFieldErrorMsg").setAttribute('style', 'color:#ff0000');
     document.getElementById("timeFieldErrorMsg").innerText = "Enter value for End Time";
   } else if (currentStartTimeValue >= currentEndTimeValue) {
-    document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#ff0000');
+    document.getElementById("timeFieldErrorMsg").setAttribute('style', 'color:#ff0000');
     document.getElementById("timeFieldErrorMsg").innerText = "Current StartTime must be lesser than current EndTime";
-  }else{
-    document.getElementById("timeFieldErrorMsg").setAttribute('style','color:#fff');
+  } else {
+    document.getElementById("timeFieldErrorMsg").setAttribute('style', 'color:#fff');
   }
 }
 
@@ -374,10 +399,10 @@ function showOptions(e) {
   let divOptions = document.getElementById("divOptions");
   let checkboxContainer = document.getElementById("chkboxContainer");
   if (divOptions.style.display == "none" || divOptions.style.display == "") {
-      divOptions.style.display = "inline-block";
-      checkboxContainer.style = "margin-top: 95px;";
+    divOptions.style.display = "inline-block";
+    checkboxContainer.style = "margin-top: 95px;";
   } else {
-      divOptions.style.display = "none";
+    divOptions.style.display = "none";
   }
 }
 function clickMe(e) {
@@ -387,11 +412,11 @@ function hideOptions(e) {
   let divOptions = document.getElementById("divOptions");
   let checkboxContainer = document.getElementById("chkboxContainer");
   if (divOptions.contains(e.target)) {
-      divOptions.style.display = "inline-block";
-      
+    divOptions.style.display = "inline-block";
+
   } else {
-      divOptions.style.display = "none";
-      checkboxContainer.style = "margin-top: 15px;";
+    divOptions.style.display = "none";
+    checkboxContainer.style = "margin-top: 15px;";
   }
 }
 
@@ -400,24 +425,24 @@ document.addEventListener("DOMContentLoaded", function () {
   let inputCheckbox = document.getElementById("inputCheckbox");
 
   for (let i = 0; i < checkbox.length; i++) {
-      checkbox[i].addEventListener("change", (e) => {
-          if (e.target.checked == true) {
-              if (inputCheckbox.value == "") {
-                  inputCheckbox.value = checkbox[i].value;
-              } else {
-                  inputCheckbox.value += `,${checkbox[i].value}`;
-              }
-          } else {
-              let values = inputCheckbox.value.split(",");
+    checkbox[i].addEventListener("change", (e) => {
+      if (e.target.checked == true) {
+        if (inputCheckbox.value == "") {
+          inputCheckbox.value = checkbox[i].value;
+        } else {
+          inputCheckbox.value += `,${checkbox[i].value}`;
+        }
+      } else {
+        let values = inputCheckbox.value.split(",");
 
-              for (let r = 0; r < values.length; r++) {
-                  if (values[r] == e.target.value) {
-                      values.splice(r, 1);
-                  }
-              }
-              inputCheckbox.value = values;
+        for (let r = 0; r < values.length; r++) {
+          if (values[r] == e.target.value) {
+            values.splice(r, 1);
           }
-      });
+        }
+        inputCheckbox.value = values;
+      }
+    });
   }
 });
 
@@ -427,17 +452,18 @@ document.addEventListener("click", () => {
   var timeField = document.getElementById("timeField");
   console.log(specificTimeCheckbox.checked);
   console.log(fullTimeCheckbox.checked);
-  if(specificTimeCheckbox.checked){
-    document.getElementById("showTime").setAttribute("checked","");
-    document.getElementById("showTime").setAttribute("value","checked");
+  if (specificTimeCheckbox.checked) {
+    document.getElementById("showTime").setAttribute("checked", "");
+    document.getElementById("showTime").setAttribute("value", "checked");
     document.getElementById("txtCheckBox").removeAttribute("checked");
     timeField.style.display = "block";
-  }else {
+  } else {
     document.getElementById("showTime").removeAttribute("checked");
-    document.getElementById("txtCheckBox").setAttribute("checked","");
-    document.getElementById("showTime").removeAttribute("value","checked");
+    document.getElementById("txtCheckBox").setAttribute("checked", "");
+    document.getElementById("showTime").removeAttribute("value", "checked");
     timeField.style.display = "none";
-  }});
+  }
+});
 
 buttons();
 loadCalendar();
