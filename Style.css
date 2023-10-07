@@ -124,23 +124,21 @@ button {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-#addEvent,
-#viewEvent {
+#addEvent,#editEvent,#viewEvent {
   display: none;
   width: 350px;
-  background-color: #fff;
+  background-color: cadetblue;
   padding: 25px;
   position: absolute;
   z-index: 20;
 }
 
-#addEvent h2,
-#viewEvent h2 {
+#addEvent h2,#editEvent h2,#viewEvent h2 {
   font-weight: 500;
   margin-bottom: 10px;
 }
 
-#chkboxContainer {
+#chkboxContainer,#edit_chkbox_Container {
   margin-top: 15px;
   width: 100%;
   display: flex;
@@ -150,8 +148,7 @@ button {
   margin-right: 40px;
 }
 
-#txtTitle,
-#txtDesc {
+#txtTitle,#edit_txt_Title,#txtDesc,#edit_txt_Desc {
   padding: 10px;
   width: 100%;
   height: 5vh;
@@ -163,7 +160,7 @@ button {
   font-size: 16px;
 }
 
-#btnSave {
+#btnSave,#edit_btn_update{
   background-color: green;
 }
 
@@ -267,7 +264,7 @@ form {
   border-radius: 5px;
 }
 
-#timeField {
+#timeField,#edit_time_Field {
   display: none;
   margin: 10px;
 }
@@ -276,17 +273,17 @@ form {
   margin: 10px;
 }
 
-#timeField-table td {
+#timeField-table td,#edit_timeField_table td {
   text-align: center;
   padding: 2px;
 }
 
-#radioButton-Container {
+#radioButton-Container,#edit_radioButton_Container {
   margin: 10px 0;
   text-align: left;
 }
 
-#radioButton-Container input {
+#radioButton-Container input,#edit_radioButton_Container input {
   margin: 7px;
 }
 
@@ -341,7 +338,7 @@ form {
   background: rgb(201, 201, 201);
 }
 
-#imageUpload {
+#imageUpload,#edit_image_upload {
   margin: 25px 0;
 }
 
@@ -375,3 +372,40 @@ form {
 .btn_event {
   width: 50%;
 }
+
+.contextMenu {
+  position: absolute;
+  width: 100px; height: auto;
+  color: #b7c4f1;
+  background: #344683;
+  border: 1px solid #344683;
+  display: none;
+ }
+
+ .contextMenu ul {
+  padding: 0;
+  margin: 0;
+ }
+ .contextMenu ul li {
+  border-bottom: #b7c4f1 1px solid;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+ }
+
+ .contextMenu ul li:last-child{
+  border-bottom: none;
+ }
+
+ .contextMenu ul li a {
+  text-align: center;
+  display: block;
+  padding: 5px 10px;
+  color: #fff;
+  text-transform: capitalize;
+  text-decoration: none;
+ }
+
+ .contextMenu ul li a:hover {
+  background: #2777FF;
+ }

@@ -98,11 +98,16 @@ const holidays = [
 ];
 const calendar = document.querySelector("#calendar");
 const monthBanner = document.querySelector("#month");
+const menuElement = document.querySelector(".contextMenu");
+const editEventLink = document.querySelector(".editEventLink");
 let navigation = 0;
 let clicked = null;
 let events = localStorage.getItem("events") ? JSON.parse(localStorage.getItem("events")) : [];
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var imageURL = null;
+_currentMenuVisible = null;
+
+
 
 function loadCalendar() {
   const dt = new Date();
@@ -151,6 +156,19 @@ function loadCalendar() {
         eventDiv.classList.add("event");
         eventDiv.innerText = eventOfTheDay.title;
         dayBox.appendChild(eventDiv);
+        menuElement.style.display = "none";
+        eventDiv.addEventListener('contextmenu', e => {
+          e.preventDefault();
+          createMenuonRightClick(e.clientX, e.clientY);
+        });
+
+        editEventLink.addEventListener("dblclick", () =>{
+          editModel(dateText);
+        })
+
+        dayBox.addEventListener("click", () => {
+          showModal(dateText);
+        });
       }
       if (holidayOfTheDay) {
         const eventDiv = document.createElement("div");
@@ -158,23 +176,61 @@ function loadCalendar() {
         eventDiv.classList.add("holiday");
         eventDiv.innerText = holidayOfTheDay.holiday;
         dayBox.appendChild(eventDiv);
+
+        menuElement.style.display = "none";
+        eventDiv.addEventListener('contextmenu', e => {
+          e.preventDefault();
+          createMenuonRightClick(e.clientX, e.clientY);
+        });
+
+        editEventLink.addEventListener("dblclick", () =>{
+          editModel(dateText);
+        })
+
+        dayBox.addEventListener("click", () => {
+          showModal(dateText);
+        });
       }
 
       dayBox.addEventListener("click", () => {
         showModal(dateText);
       });
-    } else {
+  } else {
       dayBox.classList.add("plain");
     }
     calendar.append(dayBox);
   }
 }
 
+document.addEventListener('click', e => {
+  closetheOpenedMenu();
+});
+
+
+function closetheOpenedMenu() {
+  if (_currentMenuVisible !== null) {
+    closeContextMenu(_currentMenuVisible);
+  }
+}
+
+function closeContextMenu(menu) {
+  menu.style.left = '0px';
+  menu.style.top = '0px';
+  document.body.removeChild(menu);
+  _currentMenuVisible = null;
+}
+
+function createMenuonRightClick(x, y) {
+  closetheOpenedMenu();
+  menuElement.style.display = 'block';
+  menuElement.style.left = x + "px";
+  menuElement.style.top = y + "px";
+}
+
 function readURL(input) {
   if (input.files && input.files[0]) {
     var reader = new FileReader();
     reader.onload = function (e) {
-      console.log(typeof (e.target.result));
       imageURL = e.target.result;
     }
     reader.readAsDataURL(input.files[0]);
@@ -214,7 +270,10 @@ function buttons() {
   });
   btnDelete.addEventListener("click", function () {
     events = events.filter((e) => e.date !== clicked);
+    let deleteText = prompt("Please enter the text of  'delete' ");
+  if (deleteText == "delete") {
     localStorage.setItem("events", JSON.stringify(events));
+  }
     closeModal();
   });
 
@@ -233,7 +292,6 @@ function buttons() {
         chOPtion: multiCheckbox.value.trim(),
         imagepath: imageURL,
       });
-      console.log("Person checkbox " + multiCheckbox.value.trim());
       txtTitle.value = "";
       txtDesc.value = "";
       txtType.value = "";
@@ -252,13 +310,56 @@ function buttons() {
 const modal = document.querySelector("#modal");
 const viewEventForm = document.querySelector("#viewEvent");
 const addEventForm = document.querySelector("#addEvent");
+const editEventForm = document.querySelector("#editEvent");
+
+//============= Edit ================
+
+const btnUpdate = document.querySelector("#edit_btn_update");
+const closeBtn = document.querySelectorAll(".btnClose");
+const editTxtTitle = document.querySelector("#edit_txt_Title");
+const editTxtDesc = document.querySelector("#edit_txt_Desc");
+
+let eventOfTheDay = null;
+
+function editModel(dateText) {
+  viewEventForm.style.display = "none";
+  addEventForm.style.display = "none";
+  editEventForm.style.display = "block";
+  eventOfTheDay = events.find((e) => e.date == dateText);
+  if (eventOfTheDay) {
+    editTxtTitle.value = eventOfTheDay.title;
+    editTxtTitle.setAttribute("disabled","disabled");
+    editTxtDesc.value = eventOfTheDay.desc;
+  }
+}
+
+function editButton() {
+  modal.addEventListener("click", closeModal);
+
+  closeBtn.forEach((btn) => {
+    btn.addEventListener("click", closeModal);
+  });
+
+  btnUpdate.addEventListener("click", () => {
+    console.log(eventOfTheDay);
+    events.desc = events.map((e) => e.desc !== editTxtDesc.value.trim() ?  editTxtDesc.value.trim() : e.desc)
+    events[0].desc = events.desc.toString();
+        if (confirm("Do you want to save changes?") == true) {
+          localStorage.setItem("events", JSON.stringify(events));
+        }
+      closeModal();
+    }
+  );
+}
+
+//=============================
 
 function showModal(dateText) {
   clicked = dateText;
-  console.log(clicked);
   const eventOfTheDay = events.find((e) => e.date == dateText);
   if (eventOfTheDay) {
     //Event already Preset
+    console.log("View Desc : " + eventOfTheDay.desc);
     document.querySelector("#eventText").innerText = eventOfTheDay.title;
     document.querySelector("#eventDesc").innerText = eventOfTheDay.desc;
     document.querySelector("#eventType").innerText = eventOfTheDay.type;
@@ -287,8 +388,8 @@ function closeModal() {
   txtTitle.classList.remove("error");
   viewEventForm.style.display = "none";
   addEventForm.style.display = "none";
+  editEventForm.style.display = "none";
   modal.style.display = "none";
-
   clicked = null;
   loadCalendar();
 }
@@ -450,8 +551,6 @@ document.addEventListener("click", () => {
   var fullTimeCheckbox = document.getElementById("txtCheckBox");
   var specificTimeCheckbox = document.getElementById("showTime");
   var timeField = document.getElementById("timeField");
-  console.log(specificTimeCheckbox.checked);
-  console.log(fullTimeCheckbox.checked);
   if (specificTimeCheckbox.checked) {
     document.getElementById("showTime").setAttribute("checked", "");
     document.getElementById("showTime").setAttribute("value", "checked");
@@ -464,7 +563,6 @@ document.addEventListener("click", () => {
     timeField.style.display = "none";
   }
 });
-
 buttons();
+editButton();
 loadCalendar();
-

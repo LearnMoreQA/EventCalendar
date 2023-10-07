@@ -35,7 +35,7 @@
     <h2>Add Event</h2>
     <label id="event_Name">Event Name <input type="text" id="txtTitle" placeholder="Event Title" /></label>
     <label id="event_Desc">Event Description </label>
-    <input type="text" id="txtDesc" placeholder="Event Description" />
+    <input type="text" id="txtDesc" name="event_Description" placeholder="Event Description" />
     <div id="radioButton-Container">
       <label>Do you want to Include Another Person.?</label>
       <input type="radio" id="selectYes" name="selection" onclick="toggleRadioField()" />
@@ -102,6 +102,22 @@
     <button id="btnSave" onclick="validateTimeField()">Save</button>
     <button class="btnClose">Close</button>
   </div>
+  <div id="editEvent">
+    <h2>Edit Event</h2>
+    <label id="edit_event_Name">Event Name <input type="text" id="edit_txt_Title" /></label>
+    <label id="edit_event_Desc">Event Description </label>
+    <input type="text" id="edit_txt_Desc" name="event_Description" placeholder="Event Description" />
+    <br><br><br>
+    <button id="edit_btn_update" onclick="validateTimeField()">Update</button>
+    <button class="btnClose">Close</button>
+  </div>
+
+  <div class="contextMenu">
+    <ul>
+      <li><a class="editEventLink">Edit</a></li>
+    </ul>
+  </div>
+
 
   <div id="viewEvent" class="float-container">
     <h2>Event</h2>
@@ -118,11 +134,13 @@
       </div>
     </div>
     <br>
+
     <div class="btn_event">
       <button id="btnDelete">Delete</button>
       <button class="btnClose">Close</button>
     </div>
   </div>
+  
   <script src="script.js"></script>
 </body>
 
