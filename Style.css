@@ -127,7 +127,7 @@ button {
 #addEvent,#editEvent,#viewEvent {
   display: none;
   width: 350px;
-  background-color: cadetblue;
+  background-color: #f0f3f1;
   padding: 25px;
   position: absolute;
   z-index: 20;

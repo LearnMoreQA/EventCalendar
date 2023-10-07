@@ -341,7 +341,6 @@ function editButton() {
   });
 
   btnUpdate.addEventListener("click", () => {
-    console.log(eventOfTheDay);
     events.desc = events.map((e) => e.desc !== editTxtDesc.value.trim() ?  editTxtDesc.value.trim() : e.desc)
     events[0].desc = events.desc.toString();
         if (confirm("Do you want to save changes?") == true) {
