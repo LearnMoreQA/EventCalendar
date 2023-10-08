@@ -106,8 +106,7 @@ let events = localStorage.getItem("events") ? JSON.parse(localStorage.getItem("e
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var imageURL = null;
 _currentMenuVisible = null;
-
-
+let SelectedDate = null;
 
 function loadCalendar() {
   const dt = new Date();
@@ -124,14 +123,14 @@ function loadCalendar() {
   calendar.innerHTML = "";
   const dayInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayofMonth = new Date(year, month, 1);
-  const dateText = firstDayofMonth.toLocaleDateString("en-us", {
+  const date = firstDayofMonth.toLocaleDateString("en-us", {
     weekday: "long",
     year: "numeric",
     month: "numeric",
     day: "numeric",
   });
 
-  const dayString = dateText.split(", ")[0];
+  const dayString = date.split(", ")[0];
   const emptyDays = weekdays.indexOf(dayString);
 
   for (let i = 1; i <= dayInMonth + emptyDays; i++) {
@@ -153,52 +152,59 @@ function loadCalendar() {
 
       if (eventOfTheDay) {
         const eventDiv = document.createElement("div");
+
         eventDiv.classList.add("event");
         eventDiv.innerText = eventOfTheDay.title;
         dayBox.appendChild(eventDiv);
+
         menuElement.style.display = "none";
-        eventDiv.addEventListener('contextmenu', e => {
-          e.preventDefault();
-          createMenuonRightClick(e.clientX, e.clientY);
-        });
 
-        editEventLink.addEventListener("dblclick", () =>{
-          editModel(dateText);
-        })
-
-        dayBox.addEventListener("click", () => {
-          showModal(dateText);
+        eventDiv.addEventListener('contextmenu', (e) => {
+          eventDiv.setAttribute("date", dateText);
+          const eventDate = eventDiv.getAttribute("date");
+          if (eventDate === eventOfTheDay.date) {
+            createMenuonRightClick(e.clientX, e.clientY);
+            editEventLink.addEventListener("dblclick", () => {
+              editModel(dateText);
+            })
+            btnUpdate.addEventListener("click", () => {
+              updateValue(dateText);
+            });
+            e.preventDefault();
+          }
         });
       }
+
       if (holidayOfTheDay) {
         const eventDiv = document.createElement("div");
         eventDiv.classList.add("event");
         eventDiv.classList.add("holiday");
         eventDiv.innerText = holidayOfTheDay.holiday;
         dayBox.appendChild(eventDiv);
-
         menuElement.style.display = "none";
         eventDiv.addEventListener('contextmenu', e => {
-          e.preventDefault();
-          createMenuonRightClick(e.clientX, e.clientY);
-        });
-
-        editEventLink.addEventListener("dblclick", () =>{
-          editModel(dateText);
-        })
-
-        dayBox.addEventListener("click", () => {
-          showModal(dateText);
+          eventDiv.setAttribute("date", dateText);
+          if (eventDiv.getAttribute("date") === eventOfTheDay.date) {
+            createMenuonRightClick(e.clientX, e.clientY);
+            editEventLink.addEventListener("dblclick", () => {
+              editModel(eventDiv.getAttribute("date"));
+            })
+            btnUpdate.addEventListener("click", (e) => {
+              updateValue(eventDiv.getAttribute("date"));
+            });
+            e.preventDefault();
+          }
         });
       }
 
       dayBox.addEventListener("click", () => {
         showModal(dateText);
       });
-  } else {
+    } else {
       dayBox.classList.add("plain");
     }
     calendar.append(dayBox);
+
   }
 }
 
@@ -217,6 +223,7 @@ function closeContextMenu(menu) {
   menu.style.left = '0px';
   menu.style.top = '0px';
   document.body.removeChild(menu);
+  eventDiv.removeAttribute("date");
   _currentMenuVisible = null;
 }
 
@@ -270,10 +277,10 @@ function buttons() {
   });
   btnDelete.addEventListener("click", function () {
     events = events.filter((e) => e.date !== clicked);
-    let deleteText = prompt("Please enter the text of  'delete' ");
-  if (deleteText == "delete") {
+    //let deleteText = prompt("Please enter the text of  'delete' ");
+    //if (deleteText == "delete") {
     localStorage.setItem("events", JSON.stringify(events));
-  }
+    //}
     closeModal();
   });
 
@@ -319,16 +326,14 @@ const closeBtn = document.querySelectorAll(".btnClose");
 const editTxtTitle = document.querySelector("#edit_txt_Title");
 const editTxtDesc = document.querySelector("#edit_txt_Desc");
 
-let eventOfTheDay = null;
-
 function editModel(dateText) {
   viewEventForm.style.display = "none";
   addEventForm.style.display = "none";
   editEventForm.style.display = "block";
-  eventOfTheDay = events.find((e) => e.date == dateText);
+  const eventOfTheDay = events.find((e) => e.date == dateText);
   if (eventOfTheDay) {
     editTxtTitle.value = eventOfTheDay.title;
-    editTxtTitle.setAttribute("disabled","disabled");
+    editTxtTitle.setAttribute("disabled", "disabled");
     editTxtDesc.value = eventOfTheDay.desc;
   }
 }
@@ -339,16 +344,16 @@ function editButton() {
   closeBtn.forEach((btn) => {
     btn.addEventListener("click", closeModal);
   });
+}
 
-  btnUpdate.addEventListener("click", () => {
-    events.desc = events.map((e) => e.desc !== editTxtDesc.value.trim() ?  editTxtDesc.value.trim() : e.desc)
-    events[0].desc = events.desc.toString();
-        if (confirm("Do you want to save changes?") == true) {
-          localStorage.setItem("events", JSON.stringify(events));
-        }
-      closeModal();
-    }
-  );
+function updateValue(dateText) {
+  clicked = dateText;
+  const eventOfTheDay = events.find((e) => e.date == dateText);
+  eventOfTheDay.desc = (eventOfTheDay.desc !== editTxtDesc.value.trim()) ? editTxtDesc.value.trim() : eventOfTheDay.desc;
+   if (confirm("Do you want to save changes?") == true) {
+     localStorage.setItem("events", JSON.stringify(events));
+   }
+  closeModal();
 }
 
 //=============================
