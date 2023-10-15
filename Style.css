@@ -61,7 +61,7 @@ button {
   text-transform: uppercase;
 }
 
-#calendar {
+#calendar,#eventCalendar {
   width: 100%;
   margin: auto;
   display: flex;

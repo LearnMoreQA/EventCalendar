@@ -100,13 +100,13 @@ const calendar = document.querySelector("#calendar");
 const monthBanner = document.querySelector("#month");
 const menuElement = document.querySelector(".contextMenu");
 const editEventLink = document.querySelector(".editEventLink");
+let selectedDate = '';
 let navigation = 0;
 let clicked = null;
 let events = localStorage.getItem("events") ? JSON.parse(localStorage.getItem("events")) : [];
 const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var imageURL = null;
 _currentMenuVisible = null;
-let SelectedDate = null;
 
 function loadCalendar() {
   const dt = new Date();
@@ -152,24 +152,22 @@ function loadCalendar() {
 
       if (eventOfTheDay) {
         const eventDiv = document.createElement("div");
-
         eventDiv.classList.add("event");
         eventDiv.innerText = eventOfTheDay.title;
         dayBox.appendChild(eventDiv);
-
         menuElement.style.display = "none";
-
         eventDiv.addEventListener('contextmenu', (e) => {
           eventDiv.setAttribute("date", dateText);
           const eventDate = eventDiv.getAttribute("date");
           if (eventDate === eventOfTheDay.date) {
+            selectedDate = eventOfTheDay.date;
             createMenuonRightClick(e.clientX, e.clientY);
             editEventLink.addEventListener("dblclick", () => {
-              editModel(dateText);
-            })
+            editModel(dateText);
+          })
             btnUpdate.addEventListener("click", () => {
-              updateValue(dateText);
-            });
+              if(selectedDate === dateText) updateValue(dateText);
+          });
             e.preventDefault();
           }
         });
@@ -204,14 +202,12 @@ function loadCalendar() {
       dayBox.classList.add("plain");
     }
     calendar.append(dayBox);
-
   }
 }
 
 document.addEventListener('click', e => {
   closetheOpenedMenu();
 });
-
 
 function closetheOpenedMenu() {
   if (_currentMenuVisible !== null) {
@@ -277,10 +273,10 @@ function buttons() {
   });
   btnDelete.addEventListener("click", function () {
     events = events.filter((e) => e.date !== clicked);
-    //let deleteText = prompt("Please enter the text of  'delete' ");
-    //if (deleteText == "delete") {
+    let deleteText = prompt("Please enter the text of  'delete' ");
+    if (deleteText == "delete") {
     localStorage.setItem("events", JSON.stringify(events));
-    //}
+    }
     closeModal();
   });
 
@@ -340,7 +336,6 @@ function editModel(dateText) {
 
 function editButton() {
   modal.addEventListener("click", closeModal);
-
   closeBtn.forEach((btn) => {
     btn.addEventListener("click", closeModal);
   });
@@ -348,22 +343,19 @@ function editButton() {
 
 function updateValue(dateText) {
   clicked = dateText;
-  const eventOfTheDay = events.find((e) => e.date == dateText);
+  const eventOfTheDay = events.find((e) => e.date == selectedDate);
   eventOfTheDay.desc = (eventOfTheDay.desc !== editTxtDesc.value.trim()) ? editTxtDesc.value.trim() : eventOfTheDay.desc;
    if (confirm("Do you want to save changes?") == true) {
      localStorage.setItem("events", JSON.stringify(events));
    }
   closeModal();
 }
-
 //=============================
-
 function showModal(dateText) {
   clicked = dateText;
   const eventOfTheDay = events.find((e) => e.date == dateText);
   if (eventOfTheDay) {
     //Event already Preset
-    console.log("View Desc : " + eventOfTheDay.desc);
     document.querySelector("#eventText").innerText = eventOfTheDay.title;
     document.querySelector("#eventDesc").innerText = eventOfTheDay.desc;
     document.querySelector("#eventType").innerText = eventOfTheDay.type;
