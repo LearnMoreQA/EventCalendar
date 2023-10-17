@@ -1,21 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Event Management</title>
-  <style>
-    body {
-      margin: 0;
-    }
-    iframe {
-      display: block;
-      border: none;
-      height: 100vh;
-      width: 100vw;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-  <iframe id="iframeCalendar" src="/calendar.html"></iframe>
+  <div class="container">
+    <div class="header">
+      <div id="month"></div>
+      <div>
+        <button id="btnBack"><i class="fa fa-angle-left"></i></button>
+        <button id="btnNext"><i class="fa fa-angle-right"></i></button>
+      </div>
+    </div>
+    <div class="weekdays">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+    <div id="calendar"></div>
+  </div>
+  <div id="modal"></div>
+  <div id="addEvent">
+    <h2>Add Event</h2>
+    <label id="event_Name">Event Name <input type="text" id="txtTitle" placeholder="Event Title" /></label>
+    <label id="event_Desc">Event Description </label>
+    <input type="text" id="txtDesc" name="event_Description" placeholder="Event Description" />
+    <div id="radioButton-Container">
+      <label>Do you want to Include Another Person.?</label>
+      <input type="radio" id="selectYes" name="selection" onclick="toggleRadioField()" />
+      <label for="yes">Yes</label>
+      <input type="radio" id="selectNo" name="selection" onclick="toggleRadioField()" />
+      <label for="no">No</label>
+    </div>
+    <div class="combobox-container" id="combobox" hidden>
+      <div class="custom-combobox-container">
+        <div class="custom-combobox" onclick="showOptions(this)">
+          <input type="text" id="inputCheckbox" readonly>
+          <img src="./arrow.png" style="height: 10px;">
+        </div>
+        <div class="options-container" id="divOptions" onmouseleave="hideOptions(this)">
+          <label for="one"> <input type="checkbox" id="mahe" value="mahesh"> Mahesh </label>
+          <label for="two"> <input type="checkbox" id="aravinth" value="aravinth"> Aravinth </label>
+        </div>
+      </div>
+    </div>
+    <div id="chkboxContainer">
+      <div id="fullDayContainer" class="ch_container">
+        <input type="checkbox" id="txtCheckBox" name="timeslot" checked value="checked" />
+        <label>All Day</label>
+      </div>
+      <div id="specificTimeContainer" class="ch_container">
+        <input type="checkbox" id="showTime" name="timeslot" />
+        <label>Specific Time</label>
+      </div>
+    </div>
+    <div id="timeField">
+      <table id="timeField-table">
+        <thead>
+          <td>Start Time</td>
+          <td>End Time</td>
+        </thead>
+        <tr class="t-row">
+          <td>
+            <input type="time" id="time" class="vTimeStart" />
+          </td>
+          <td>
+            <input type="time" id="time" class="vTimeEnd" />
+          </td>
+        </tr>
+      </table>
+      <p id="timeFieldErrorMsg"></p>
+    </div>
+    <br>
+    <form>
+      <label id="event_Type">Event Type</label>
+      <input id="txtType" class="chosen-value" type="text" value="" placeholder="Type to select event type..." />
+      <ul class="value-list" hidden>
+        <li>None</li>
+        <li>Business</li>
+        <li>Important</li>
+        <li>Personal</li>
+      </ul>
+    </form>
+    <br><br><br>
+    <div>
+      <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
+      <label for="imageUpload"></label>
+    </div>
+    <br>
+    <button id="btnSave" onclick="validateTimeField()">Save</button>
+    <button class="btnClose">Close</button>
+  </div>
+  <div id="editEvent">
+    <h2>Edit Event</h2>
+    <label id="edit_event_Name">Event Name <input type="text" id="edit_txt_Title" /></label>
+    <label id="edit_event_Desc">Event Description </label>
+    <input type="text" id="edit_txt_Desc" name="event_Description" placeholder="Event Description" />
+    <br><br><br>
+    <button id="edit_btn_update" onclick="validateTimeField()">Update</button>
+    <button class="btnClose">Close</button>
+  </div>
+  <div class="contextMenu">
+    <ul>
+      <li><a class="editEventLink">Edit</a></li>
+    </ul>
+  </div>
+  <div id="viewEvent" class="float-container">
+    <h2>Event</h2>
+    <div>
+      <div id="event_info" class="float-child">
+        <p id="eventText">This is Sample Event</p>
+        <p id="eventDesc">This is Sample Event</p>
+        <p id="eventType">This is Sample Event</p>
+        <p id="multiOption">This is Sample Event</p>
+        <p id="eventTimeSlot">This is Sample Event</p>
+      </div>
+      <div id="avatar-preview" class="float-child">
+        <div id="imagePreview" style="background-image: url('profile.png');"></div>
+      </div>
+    </div>
+    <br>
+    <div class="btn_event">
+      <button id="btnDelete">Delete</button>
+      <button class="btnClose">Close</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 
 </html>
